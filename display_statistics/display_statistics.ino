@@ -90,14 +90,16 @@ void normalRoutine() {
   if (package < 0) {
     digitalWrite(BLUE, HIGH);
     package *= -1;
-  }
-  //red/green weather indicator: 1 means clear weather, 0 means hazardous weather
-  if (package % 10) {
-    digitalWrite(GREEN, HIGH);
-    digitalWrite(RED, LOW);
   } else {
-    digitalWrite(GREEN, LOW);
+    digitalWrite(BLUE, LOW);
+  }
+  //red/green weather indicator: 0 means clear weather, 1 means hazardous weather
+  if (package % 10) {
     digitalWrite(RED, HIGH);
+    digitalWrite(GREEN, LOW);
+  } else {
+    digitalWrite(RED, LOW);
+    digitalWrite(GREEN, HIGH);
   }
   //yellow sunlight indicator: 1 means sun is up, 0 means sun has set
   if (package / 10 % 10) {
