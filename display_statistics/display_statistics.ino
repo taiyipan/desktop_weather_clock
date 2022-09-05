@@ -15,6 +15,7 @@ const byte INTERRUPT = 19;
 //declare variables
 long package; //variable to store serial communication data package
 volatile byte state = LOW;
+void(*resetFunc)(void) = 0;
 
 /*
 Setup phase
@@ -66,13 +67,17 @@ void loop() {
     myTransfer.rxObj(package);
   }
 
+  //reset trigger
+  if (package == -1) resetFunc();
+
   //2 states: normal and irregular
-  if (state == LOW) {
-    normalRoutine();
-  } else {
-    irregularRoutine();
-    delay(3000);
-  }
+  // if (state == LOW) {
+  //   normalRoutine();
+  // } else {
+  //   irregularRoutine();
+  //   delay(3000);
+  // }
+  normalRoutine();
 }
 
 /*
@@ -124,14 +129,14 @@ void normalRoutine() {
 /*
 Execution protocol during irregular routine
 */
-void irregularRoutine() {
-  //blank out 7Seg displays
-  sevseg.blank();
-  sevseg2.blank();
-  sevseg3.blank();
-  //turn off LEDs
-  digitalWrite(BLUE, LOW);
-  digitalWrite(YELLOW, LOW);
-  digitalWrite(RED, LOW);
-  digitalWrite(GREEN, LOW);
-}
+// void irregularRoutine() {
+//   //blank out 7Seg displays
+//   sevseg.blank();
+//   sevseg2.blank();
+//   sevseg3.blank();
+//   //turn off LEDs
+//   digitalWrite(BLUE, LOW);
+//   digitalWrite(YELLOW, LOW);
+//   digitalWrite(RED, LOW);
+//   digitalWrite(GREEN, LOW);
+// }
